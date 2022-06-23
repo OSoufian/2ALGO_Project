@@ -5,9 +5,9 @@ def box_stacking(boxes):
 
     for i in range(len(boxes)):
         current_box = boxes[i]
-        box_1 = Box(current_box.height, current_box.width, current_box.depth)
-        box_2 = Box(current_box.depth, current_box.width, current_box.height)
-        box_3 = Box(current_box.width, current_box.height, current_box.depth)
+        box_1 = Box(current_box.height, max(current_box.width, current_box.depth), min(current_box.width, current_box.depth))
+        box_2 = Box(current_box.width, max(current_box.height, current_box.depth), min(current_box.height, current_box.depth))
+        box_3 = Box(current_box.depth, max(current_box.width, current_box.height), min(current_box.width, current_box.height))
         box_possibilities.extend([box_1, box_2, box_3])
 
     box_possibilities.sort(key=lambda box: box.get_area(), reverse=True)
