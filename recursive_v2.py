@@ -12,27 +12,22 @@ def box_stacking(boxes):
 
     box_possibilities.sort(key=lambda box: box.get_area(), reverse=True)    
 
-    track = [0] * (len(box_possibilities) + 1)
-    stacked_boxes = find_highest(box_possibilities, [], 0, track)
-    print(sum(box.height for box in stacked_boxes))
-    for i in range(len(stacked_boxes)):
-        print(stacked_boxes[i].height, 'x', stacked_boxes[i].width, 'x', stacked_boxes[i].depth)
+    max_heights = [box.height for box in box_possibilities]
+    max_height = find_highest(box_possibilities, max_heights, 1)
+    print(max_height)
+    # print(sum(box.height for box in stacked_boxes))
+    # for i in range(len(stacked_boxes)):
+    #     print(stacked_boxes[i].height, 'x', stacked_boxes[i].width, 'x', stacked_boxes[i].depth)
 
-def find_highest(boxes, stacked_boxes, i, track):
-    if stacked_boxes == []:
-        stacked_boxes.append(boxes[i])
-
-    elif track[i] > 0:
-        return track[i]
-
-    elif boxes[i].width < stacked_boxes[-1].width and boxes[i].depth < stacked_boxes[-1].depth:        
-        stacked_boxes.append(boxes[i])
+def find_highest(boxes, max_heights, i):
+    for j in range(0, i):
+        if boxes[i].width < boxes[j].width and boxes[i].depth < boxes[j].depth:
+                if max_heights[i] < max_heights[j] + boxes[i].height:
+                    max_heights[i] = max_heights[j] + boxes[i].height
 
     if i == (len(boxes) - 1):
-        return stacked_boxes
-    
-    track[i] = stacked_boxes
+        return max(max_heights)
 
-    return find_highest(boxes, stacked_boxes, i+1, track)
+    return find_highest(boxes, max_heights, i+1)
 
 box_stacking([Box(2, 7, 5), Box(7, 6, 3), Box(10, 20, 5), Box(3, 4, 5)])

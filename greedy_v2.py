@@ -12,14 +12,20 @@ def box_stacking(boxes):
 
     box_possibilities.sort(key=lambda box: box.get_area(), reverse=True)
 
-    stacked_boxes = [box_possibilities[0]]
 
-    for i in range(len(box_possibilities)):
-        if box_possibilities[i].width < stacked_boxes[-1].width and box_possibilities[i].depth < stacked_boxes[-1].depth:
-            stacked_boxes.append(box_possibilities[i])
-    print(sum(box.height for box in stacked_boxes))
+    max_height = [box.height for box in box_possibilities]
+    # stacked_boxes = []
+
+    for i in range(1, len(box_possibilities)):
+        for j in range(0, i):
+            if box_possibilities[i].width < box_possibilities[j].width and box_possibilities[i].depth < box_possibilities[j].depth:
+                if max_height[i] < max_height[j] + box_possibilities[i].height:
+                    max_height[i] = max_height[j] + box_possibilities[i].height
+                    # stacked_boxes[i].append(box_possibilities[i]) 
+
+    print(max(max_height))
     
-    for i in range(len(stacked_boxes)):
-        print(stacked_boxes[i].height, 'x', stacked_boxes[i].width, 'x', stacked_boxes[i].depth)
+    # for i in range(len(stacked_boxes)):
+    #     print(stacked_boxes[0][i].height, 'x', stacked_boxes[0][i].width, 'x', stacked_boxes[0][i].depth)
 
 box_stacking([Box(2, 7, 5), Box(7, 6, 3), Box(10, 20, 5), Box(3, 4, 5)])
