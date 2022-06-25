@@ -12,7 +12,11 @@ def box_stacking(boxes):
 
     box_possibilities.sort(key=lambda box: box.get_area(), reverse=True)
 
+    
+
+
     max_height = [box.height for box in box_possibilities]
+    max_stack = []
 
     n = len(box_possibilities)
 
@@ -22,7 +26,7 @@ def box_stacking(boxes):
             if box_possibilities[i].width < box_possibilities[j].width and box_possibilities[i].depth < box_possibilities[j].depth:
                 if max_height[i] < max_height[j] + box_possibilities[i].height:
                     max_height[i] = max_height[j] + box_possibilities[i].height
-                    stacked_boxes.append(box_possibilities[j])
+                    stacked_boxes.append(box_possibilities[i])
         if max_height[i] == max(max_height):
             max_stack = stacked_boxes
 
@@ -31,16 +35,4 @@ def box_stacking(boxes):
     for i in range(len(max_stack)):
         print(max_stack[i].height, 'x', max_stack[i].width, 'x', max_stack[i].depth)
 
-def refractor(file):
-    boxes = open(f'{file}', 'r')
-    Lines = boxes.readlines()
-    count = 0
-    boxList = []
-    for line in Lines:
-        boxList.append(Box([*map(lambda x: int(x), line.split())][0], [*map(lambda x: int(x), line.split())][1], [*map(lambda x: int(x), line.split())][2]))
-        count += 1
-
-    return boxList
-
-# refractor("boxes.txt")
-box_stacking(refractor("boxes.txt"))
+box_stacking([Box(2, 7, 5), Box(7, 6, 3), Box(10, 20, 5), Box(3, 4, 5)])
