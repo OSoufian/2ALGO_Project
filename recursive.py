@@ -1,6 +1,6 @@
 from Box import Box
 
-def box_stacking(boxes):
+def box_stacking_r(boxes):
     box_possibilities = []
 
     for i in range(len(boxes)):
@@ -12,45 +12,26 @@ def box_stacking(boxes):
 
     box_possibilities.sort(key=lambda box: box.get_area(), reverse=True)    
 
-    stacked_boxes = find_highest(box_possibilities, [], 0)
-    print(sum(box.height for box in stacked_boxes))
-    for i in range(len(stacked_boxes)):
-        print(stacked_boxes[i].height, 'x', stacked_boxes[i].width, 'x', stacked_boxes[i].depth)
+    H = [box.height for box in box_possibilities]
+    max_height, stacked_boxes = find_highest(box_possibilities, H, 1)
+    print_result(max_height, stacked_boxes)
 
-def find_highest(boxes, stacked_boxes, i):
-    if stacked_boxes == []:
-        stacked_boxes.append(boxes[i])
-
-    elif boxes[i].width < stacked_boxes[-1].width and boxes[i].depth < stacked_boxes[-1].depth:        
-        stacked_boxes.append(boxes[i])
+def find_highest(boxes, H, i):
+    stacked_boxes = []
+    for j in range(0, i):
+        if boxes[i].width < boxes[j].width and boxes[i].depth < boxes[j].depth:
+                if H[i] < H[j] + boxes[i].height:
+                    H[i] = H[j] + boxes[i].height
+                    stacked_boxes.append(boxes[j])
 
     if i == (len(boxes) - 1):
-        return stacked_boxes
+        return max(H), stacked_boxes
 
-    return find_highest(boxes, stacked_boxes, i+1)
+    return find_highest(boxes, H, i+1)
 
-box_stacking([Box(2, 7, 5), Box(7, 6, 3), Box(10, 20, 5), Box(3, 4, 5)])
+def print_result(max_height, stacked_boxes):
+    print("La hauteur maximale est :", max_height)
 
-# def box_stacking(boxes):
-#     box_possibilities = []
-
-#     for i in range(len(boxes)):
-#         current_box = boxes[i]
-#         box_possibilities += map(lambda a: Box(*a), it.permutations((current_box.height, current_box.width, current_box.depth)))
-
-#     box_possibilities.sort(key=lambda box: box.get_area(), reverse=True)    
-
-#     stacked_boxes = find_highest(box_possibilities, [], 0)
-#     print(sum(box.height for box in stacked_boxes))
-
-# def find_highest(boxes, stacked_boxes, i):
-#     if stacked_boxes == []:
-#         stacked_boxes.append(boxes[i])
-
-#     elif boxes[i].width < boxes[i+1].width and boxes[i].depth < boxes[i+1].depth:
-#         if i == (len(boxes) - 1):
-#             return stacked_boxes
-#         stacked_boxes += [find_highest(boxes, stacked_boxes.append(boxes[i]), i+1)]
-
-
-# box_stacking([Box(2, 7, 5), Box(7, 6, 3), Box(10, 20, 5), Box(3, 4, 5)])
+    print("La répartition des boîtes est :")    
+    for i in range(len(stacked_boxes)):
+        print(stacked_boxes[i].height, 'x', stacked_boxes[i].width, 'x', stacked_boxes[i].depth)

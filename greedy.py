@@ -1,6 +1,6 @@
 from Box import Box
 
-def box_stacking(boxes):
+def box_stacking_g(boxes):
     box_possibilities = []
 
     for i in range(len(boxes)):
@@ -17,9 +17,12 @@ def box_stacking(boxes):
     for i in range(len(box_possibilities)):
         if box_possibilities[i].width < stacked_boxes[-1].width and box_possibilities[i].depth < stacked_boxes[-1].depth:
             stacked_boxes.append(box_possibilities[i])
-    print(sum(box.height for box in stacked_boxes))
     
+    print_result(stacked_boxes)
+
+def print_result(stacked_boxes):
+    print("La hauteur maximale est :", sum(box.height for box in stacked_boxes))
+
+    print("La répartition des boîtes est :")    
     for i in range(len(stacked_boxes)):
         print(stacked_boxes[i].height, 'x', stacked_boxes[i].width, 'x', stacked_boxes[i].depth)
-
-box_stacking([Box(2, 7, 5), Box(7, 6, 3), Box(10, 20, 5), Box(3, 4, 5)])

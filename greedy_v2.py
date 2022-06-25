@@ -31,16 +31,4 @@ def box_stacking(boxes):
     for i in range(len(max_stack)):
         print(max_stack[i].height, 'x', max_stack[i].width, 'x', max_stack[i].depth)
 
-def refractor(file):
-    boxes = open(f'{file}', 'r')
-    Lines = boxes.readlines()
-    count = 0
-    boxList = []
-    for line in Lines:
-        boxList.append(Box([*map(lambda x: int(x), line.split())][0], [*map(lambda x: int(x), line.split())][1], [*map(lambda x: int(x), line.split())][2]))
-        count += 1
 
-    return boxList
-
-# refractor("boxes.txt")
-box_stacking(refractor("boxes.txt"))
