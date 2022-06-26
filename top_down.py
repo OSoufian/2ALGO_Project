@@ -35,6 +35,6 @@ def find_highest(boxes, H, max_stack, i, track):
 
     track[i] = H[i]
 
-    return find_highest(boxes, H, max_stack, i+1)
+    return find_highest(boxes, H, max_stack, i+1, track)
 
 box_stacking([Box(2, 7, 5), Box(7, 6, 3), Box(10, 20, 5), Box(3, 4, 5)])

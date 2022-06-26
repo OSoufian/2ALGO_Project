@@ -38,4 +38,4 @@ def refractor(file):
 
     return boxList
 
-box_stacking_g(refractor("boxes.txt"))
+box_stacking_g([Box(2, 7, 5), Box(7, 6, 3), Box(10, 20, 5), Box(3, 4, 5)])
