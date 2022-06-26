@@ -26,3 +26,16 @@ def print_result(stacked_boxes):
     print("La répartition des boîtes est :")    
     for i in range(len(stacked_boxes)):
         print(stacked_boxes[i].height, 'x', stacked_boxes[i].width, 'x', stacked_boxes[i].depth)
+
+def refractor(file):
+    boxes = open(f'{file}', 'r')
+    Lines = boxes.readlines()
+    count = 0
+    boxList = []
+    for line in Lines:
+        boxList.append(Box([*map(lambda x: int(x), line.split())][0], [*map(lambda x: int(x), line.split())][1], [*map(lambda x: int(x), line.split())][2]))
+        count += 1
+
+    return boxList
+
+box_stacking_g(refractor("boxes.txt"))
