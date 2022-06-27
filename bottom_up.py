@@ -1,7 +1,6 @@
-from typing_extensions import final
 from Box import Box
 
-def box_stacking(boxes):
+def box_stacking_bu(boxes):
     box_possibilities = []
 
     for i in range(len(boxes)):
@@ -13,35 +12,28 @@ def box_stacking(boxes):
 
     box_possibilities.sort(key=lambda box: box.get_area(), reverse=True)
 
-    max_height = [box.height for box in box_possibilities]
+    H = [box.height for box in box_possibilities]
 
     for i in range(1, len(box_possibilities)):
         stacked_boxes = []
         for j in range(0, i):
             if box_possibilities[i].width < box_possibilities[j].width and box_possibilities[i].depth < box_possibilities[j].depth:
-                if max_height[i] < max_height[j] + box_possibilities[i].height:
-                    max_height[i] = max_height[j] + box_possibilities[i].height
+                if H[i] < H[j] + box_possibilities[i].height:
+                    H[i] = H[j] + box_possibilities[i].height
                     stacked_boxes.append(box_possibilities[j])
         stacked_boxes.append(box_possibilities[i])
-        if max_height[i] == max(max_height):
+        if H[i] == max(H):
             max_stack = stacked_boxes
 
     for _ in range(3):
         checkDoubles(max_stack)
 
-    print(max(max_height))
+    # print(max(H))
     
-    for i in range(len(max_stack)):
-        print(max_stack[i].height, 'x', max_stack[i].width, 'x', max_stack[i].depth)
+    # for i in range(len(max_stack)):
+    #     print(max_stack[i].height, 'x', max_stack[i].width, 'x', max_stack[i].depth)
 
-def refractor(file):
-    boxes = open(f'{file}', 'r')
-    Lines = boxes.readlines()
-    boxList = []
-    for line in Lines:
-        boxList.append(Box([*map(lambda x: int(x), line.split())][0], [*map(lambda x: int(x), line.split())][1], [*map(lambda x: int(x), line.split())][2]))
-
-    return boxList
+    print_result(max(H), max_stack)
 
 def checkDoubles(max_stack):
     remove_stack = []
@@ -52,4 +44,9 @@ def checkDoubles(max_stack):
         max_stack.remove(remove_stack[k])
     return max_stack
 
-box_stacking(refractor("boxes.txt"))
+def print_result(max_height, stacked_boxes):
+    print("La hauteur maximale est :", max_height)
+
+    print("La répartition des boîtes est :")    
+    for i in range(len(stacked_boxes)):
+        print(stacked_boxes[i].height, 'x', stacked_boxes[i].width, 'x', stacked_boxes[i].depth)

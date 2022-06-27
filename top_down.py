@@ -1,7 +1,6 @@
 from Box import Box
-from recursive import print_result
 
-def box_stacking(boxes):
+def box_stacking_tp(boxes):
     box_possibilities = []
 
     for i in range(len(boxes)):
@@ -15,26 +14,23 @@ def box_stacking(boxes):
 
     track = [0] * (len(box_possibilities) + 1)
     H = [box.height for box in box_possibilities]
-    max_height, max_stack = find_highest(box_possibilities, H, [], 1, track)
-    print_result(max_height, max_stack)
+    max_height = find_highest(box_possibilities, H, [], 1, track)
+    print("La hauteur maximale :", max_height)
     
 
 def find_highest(boxes, H, max_stack, i, track):
     if track[i] > 0:
         return track[i]
 
-    stacked_boxes = []
     for j in range(0, i):
         if boxes[i].width < boxes[j].width and boxes[i].depth < boxes[j].depth:
                 if H[i] < H[j] + boxes[i].height:
                     H[i] = H[j] + boxes[i].height
-                    stacked_boxes.append(boxes[j])    
 
     if i == (len(boxes) - 1):
-        return max(H), stacked_boxes
+        return max(H)
 
     track[i] = H[i]
 
     return find_highest(boxes, H, max_stack, i+1, track)
-
-box_stacking([Box(2, 7, 5), Box(7, 6, 3), Box(10, 20, 5), Box(3, 4, 5)])
+    
