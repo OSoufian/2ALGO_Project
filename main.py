@@ -11,26 +11,16 @@ def refractor(file):
     count = 0
     boxList = []
     for line in Lines:
-        boxList.append(Box([*map(lambda x: int(x), line.split())][0], [*map(lambda x: int(x), line.split())][1], [*map(lambda x: int(x), line.split())][2]))
+        box = [*map(lambda x: int(x), line.split())]
+        boxList.append(Box(box[0], box[1], box[2]))
         count += 1
     return boxList
 
-def refractor_v2(file):
-    boxes = open(f'{file}', 'r')
-    Lines = boxes.readlines()
-    boxes = []
-    for line in Lines:
-        line = line.rstrip('\n')
-        boxes.append(Box(*map(lambda x: int(x), line.split(','))))
-    return boxes
-
-sys.setrecursionlimit(2500)
-
+sys.setrecursionlimit(2001)
 
 # Algorithme glouton
 # box_stacking_g([Box(2, 7, 5), Box(7, 6, 3), Box(10, 20, 5), Box(3, 4, 5)])
 # box_stacking_g(refractor("boxes.txt"))
-# box_stacking_g(refractor_v2("boxes_2.txt"))
 
 #Algorithme récursive
 # box_stacking_r([Box(2, 7, 5), Box(7, 6, 3), Box(10, 20, 5), Box(3, 4, 5)])

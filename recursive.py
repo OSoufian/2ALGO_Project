@@ -26,4 +26,3 @@ def find_highest(boxes, H, i):
         return max(H)
 
     return find_highest(boxes, H, i+1)
-
